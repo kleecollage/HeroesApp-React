@@ -1,31 +1,13 @@
-import { Link, Outlet } from "react-router"
+import { CustomMenu } from "@/components/custom/CustomMenu"
+import { Outlet } from "react-router"
 
 export const HeroesLayout = () => {
   return (
-    <div className="bg-red-100">
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <Link to="/heroes/1">Hero</Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <Link to="/search">Search</Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <Link to="/admin">Admin</Link>
-        </li>
-      </ul>
-      <section className="mt-10">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-purple-50 p-4">
+      <div className="max-w-7xl mx-auto">
+        <CustomMenu />
         <Outlet />
-      </section>
+      </div>
     </div>
   )
 }
