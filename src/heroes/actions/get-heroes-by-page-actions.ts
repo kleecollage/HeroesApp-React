@@ -1,9 +1,20 @@
 import { heroApi } from "@/heroes/api/hero.api"
 import type { HeroResponse } from "@/heroes/types/get-heroes.response";
 
-export const getHeroesByPageAction = async(): Promise<HeroResponse> => {
+export const getHeroesByPageAction = async (
+  page: number,
+  limit: number = 6
+): Promise<HeroResponse> => {
+  if (isNaN(page)) page = 1;
+  if (isNaN(limit)) limit = 6;
+
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const { data } = await heroApi.get<HeroResponse>('/');
+  const { data } = await heroApi.get<HeroResponse>('/', {
+    params: {
+      limit: limit,
+      offset: limit * (page - 1)
+    }
+  });
 
   const heroes = data.heroes.map( hero => ({
       ...hero,
