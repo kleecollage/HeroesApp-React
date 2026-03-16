@@ -1,14 +1,26 @@
+import { useState } from "react"
+
 import { CustomBreadcrums } from "@/components/custom/CustomBreadcrums"
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page-actions"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { HeroStats } from "@/heroes/components/HeroStats"
-import { Heart } from "lucide-react"
-import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { Heart, Search } from "lucide-react"
 
 export const HomePage = () => {
-  const [activeTab, setActiveTab] = useState< "all" | "favorites" | "heroes" | "villains" >('all')
+  const [activeTab, setActiveTab] = useState<"all" | "favorites" | "heroes" | "villains">('all')
+  // useEffect(() => {
+  //   getHeroesByPage().then();
+  // }, [])
+
+  const { data: heroesResponse } = useQuery({
+    queryKey: ['heroes'],
+    queryFn: () => getHeroesByPageAction(),
+    staleTime: 1000 * 60 * 5 // 5 mins
+  })
 
   return (
     <>
@@ -46,30 +58,30 @@ export const HomePage = () => {
 
           <TabsContent value="all">
             {/* Show all characters */}
-            <HeroGrid />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
 
           <TabsContent value="favorites">
             {/* Show favorites characters */}
-            <HeroGrid />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
 
           <TabsContent value="heroes">
             {/* Show all herores */}
-            <HeroGrid />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
           <TabsContent value="villains">
             {/* Show all villains */}
-            <HeroGrid />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
 
         </Tabs>
 
         {/* Pagination */}
-        <CustomPagination totalPages={8} />
+        <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
 
         {/* No Results */}
-        {/* {filteredHeroes.length === 0 && (
+        {heroesResponse?.heroes.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 mb-4">
               <Search className="h-12 w-12 mx-auto" />
@@ -77,7 +89,7 @@ export const HomePage = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No heroes found</h3>
             <p className="text-gray-600">Try adjusting your search terms or add a new hero to the database.</p>
           </div>
-        )} */}
+        )}
       </>
     </>
   )

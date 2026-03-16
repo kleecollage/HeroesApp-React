@@ -1,21 +1,16 @@
 import { HeroGridCard } from "@/heroes/components/HeroGridCard"
+import type { Hero } from "@/heroes/types/hero.interface"
 
-export const HeroGrid = () => {
+interface Props {
+  heroes: Hero[]
+}
+
+export const HeroGrid = ({ heroes }: Props) => {
   return (
-    <>
-      <HeroGridCard
-        universe='DC'
-        team='Justice League'
-        type='Hero'
-        alias='Superman'
-        name='Clark Kent'
-        powers={["Super Strength", "Flight", "Heat Vision", "X-Ray Vision"]}
-        description='The Last Son of Krypton, protector of Earth and symbol of hope.'
-        strength={100}
-        intelligence={90}
-        speed={80}
-        durability={50}
-        appeared='First appeared in 1956' />
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+      {heroes.map(hero => (
+        <HeroGridCard key={hero.id} hero={hero} />
+      ))}
+    </div>
   )
 }

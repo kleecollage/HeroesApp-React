@@ -1,4 +1,13 @@
-# React + TypeScript + Vite
+# Heroes APP
+
+## Levantar desarrolo
+
+1. Clonar el repositorio `https://github.com/Klerith/nest-heroes-backend`
+2. Editar el archivo `.env` con las variables de entorno basado en el archivo `.env.template`
+3. Ejecutar `npm install`
+4. Ejecutar `npm run dev`
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
