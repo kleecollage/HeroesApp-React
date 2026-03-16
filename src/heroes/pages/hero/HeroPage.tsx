@@ -4,16 +4,14 @@ import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useHeroDetails } from "@/heroes/hooks/useHeroDetails"
 import { Award, Brain, Gauge, Shield, Star, Users, Zap } from "lucide-react"
-import { useParams } from "react-router"
+import { Navigate, useParams } from "react-router"
 
 export const HeroPage = () => {
   const { idSlug = '' } = useParams();
-  console.log({idSlug});
+  // console.log({idSlug});
 
-  const { data: superheroData } = useHeroDetails(idSlug);
-
-  console.log(superheroData?.image)
-
+  const { data: superheroData, isError } = useHeroDetails(idSlug);
+  if (isError) return <Navigate to='/' />
   if (!superheroData) return <h1>Loading ...</h1>;
 
 
@@ -237,7 +235,7 @@ export const HeroPage = () => {
                   {superheroData.hero.powers.map((power, index) => (
                     <div
                       key={index}
-                      className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200"
+                      className="bg-linear-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200"
                     >
                       <div className="flex items-center gap-3">
                         <div className="bg-blue-500 p-2 rounded-full">
