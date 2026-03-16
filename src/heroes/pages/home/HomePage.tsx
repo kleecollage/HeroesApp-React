@@ -2,10 +2,10 @@ import { CustomBreadcrums } from "@/components/custom/CustomBreadcrums"
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page-actions"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { HeroStats } from "@/heroes/components/HeroStats"
-import { useQuery } from "@tanstack/react-query"
+import { useHeroSummary } from "@/heroes/hooks/useHeroSummary"
+import { usePaginatedHero } from "@/heroes/hooks/usePaginatedHero"
 import { Heart, Search } from "lucide-react"
 import { useMemo } from "react"
 import { useSearchParams } from "react-router"
@@ -20,17 +20,28 @@ export const HomePage = () => {
   const activeTab = searchParams.get('tab') ?? 'all';
   const page = searchParams.get('page') ?? '1';
   const limit = searchParams.get('limit') ?? '6';
+  const category = searchParams.get('category') ?? 'all';
 
   const selectedTab = useMemo(() => {
     const validTabs = ['all', 'favorites', 'heroes', 'villains']
     return validTabs.includes(activeTab) ? activeTab : 'all'
   }, [activeTab]);
 
-  const { data: heroesResponse } = useQuery({
-    queryKey: ['heroes', { page, limit}],
-    queryFn: () => getHeroesByPageAction(+page, +limit),
-    staleTime: 1000 * 60 * 5 // 5 mins
-  });
+  // const { data: heroesResponse } = useQuery({
+  //   queryKey: ['heroes', { page, limit}],
+  //   queryFn: () => getHeroesByPageAction(+page, +limit),
+  //   staleTime: 1000 * 60 * 5 // 5 mins
+  // });
+
+  // const { data: summary } = useQuery({
+  //   queryKey: ['summary-information'],
+  //   queryFn: getSumamryAction,
+  //   staleTime: 1000 * 60 * 5, // 5 mins
+  // });
+
+  const {data: heroesResponse} = usePaginatedHero({page: +page, limit: +limit, category}); // custom hook
+
+  const { data: summary } = useHeroSummary(); // customHook
 
   return (
     <>
@@ -51,10 +62,12 @@ export const HomePage = () => {
               value="all"
               onClick={ () => setSearchParams((prev) => {
                 prev.set('tab', 'all');
+                prev.set('category', 'all');
+                prev.set('page', '1');
                 return prev;
               }
             )} >
-              All Characters (16)
+              All Characters ({summary?.totalHeroes})
             </TabsTrigger>
 
             <TabsTrigger
@@ -66,6 +79,7 @@ export const HomePage = () => {
                 }
               )} >
                 <Heart className="h-4 w-4" />
+                {/* TODO */}
                 Favorites (3)
             </TabsTrigger>
 
@@ -73,20 +87,24 @@ export const HomePage = () => {
               value="heroes"
               onClick={ () => setSearchParams((prev) => {
                   prev.set('tab', 'heroes');
+                  prev.set('category', 'hero');
+                  prev.set('page', '1');
                   return prev;
                 }
               )} >
-                Heroes (12)
+                Heroes ({summary?.heroCount})
             </TabsTrigger>
 
             <TabsTrigger
               value="villains"
               onClick={ () => setSearchParams((prev) => {
                   prev.set('tab', 'villains');
+                  prev.set('category', 'villain');
+                  prev.set('page', '1');
                   return prev;
                 }
               )} >
-                Villains (2)
+                Villains ({summary?.villainCount})
             </TabsTrigger>
           </TabsList>
 
@@ -96,8 +114,8 @@ export const HomePage = () => {
           </TabsContent>
 
           <TabsContent value="favorites">
-            {/* Show favorites characters */}
-            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
+            {/* TODO Show favorites characters */}
+            {/* <HeroGrid heroes={heroesResponse?.heroes ?? []} /> */}
           </TabsContent>
 
           <TabsContent value="heroes">
