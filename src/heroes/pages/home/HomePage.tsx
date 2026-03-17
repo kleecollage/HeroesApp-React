@@ -4,10 +4,11 @@ import { CustomPagination } from "@/components/custom/CustomPagination"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { HeroStats } from "@/heroes/components/HeroStats"
+import { FavoriteHeroContext } from "@/heroes/context/FavoriteHeroContext"
 import { useHeroSummary } from "@/heroes/hooks/useHeroSummary"
 import { usePaginatedHero } from "@/heroes/hooks/usePaginatedHero"
 import { Heart, Search } from "lucide-react"
-import { useMemo } from "react"
+import { use, useMemo } from "react"
 import { useSearchParams } from "react-router"
 
 export const HomePage = () => {
@@ -42,6 +43,8 @@ export const HomePage = () => {
   const {data: heroesResponse} = usePaginatedHero({page: +page, limit: +limit, category}); // custom hook
 
   const { data: summary } = useHeroSummary(); // customHook
+
+  const { favoriteCount, favorites } = use(FavoriteHeroContext);
 
   return (
     <>
@@ -79,8 +82,7 @@ export const HomePage = () => {
                 }
               )} >
                 <Heart className="h-4 w-4" />
-                {/* TODO */}
-                Favorites (3)
+                Favorites ({favoriteCount})
             </TabsTrigger>
 
             <TabsTrigger
@@ -114,8 +116,8 @@ export const HomePage = () => {
           </TabsContent>
 
           <TabsContent value="favorites">
-            {/* TODO Show favorites characters */}
-            {/* <HeroGrid heroes={heroesResponse?.heroes ?? []} /> */}
+            {/* Show favorites characters */}
+            <HeroGrid heroes={favorites} />
           </TabsContent>
 
           <TabsContent value="heroes">
@@ -130,7 +132,8 @@ export const HomePage = () => {
         </Tabs>
 
         {/* Pagination */}
-        <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
+        { selectedTab !== 'favorites' && <CustomPagination totalPages={heroesResponse?.pages ?? 1} /> }
+
 
         {/* No Results */}
         {heroesResponse?.heroes.length === 0 && (
