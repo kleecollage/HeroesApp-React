@@ -1,11 +1,7 @@
 import { heroApi } from "@/heroes/api/hero.api"
 import type { HeroResponse } from "@/heroes/types/get-heroes.response";
 
-export const getHeroesByPageAction = async (
-  page: number,
-  limit: number = 6,
-  category: string= 'all'
-): Promise<HeroResponse> => {
+export const getHeroesByPageAction = async (page: number, limit: number = 6, category: string= 'all'): Promise<HeroResponse> => {
   if (isNaN(page)) page = 1;
   if (isNaN(limit)) limit = 6;
 
