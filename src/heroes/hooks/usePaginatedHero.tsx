@@ -1,4 +1,4 @@
-import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page-actions";
+import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {
