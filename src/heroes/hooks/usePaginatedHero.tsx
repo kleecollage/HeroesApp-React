@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   page: number;
-  limit: number;
-  category: string
+  limit?: number;
+  category?: string
 }
 
 export const usePaginatedHero = ( {page, limit = 6, category = 'all'}: Props ) => {
