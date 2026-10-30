@@ -7,7 +7,7 @@ describe('HeroApi', () => {
   test('should be configure pointing to testing server', () => {
     expect(heroApi).toBeDefined();
     expect(heroApi.defaults.baseURL).toBe(`${BASE_URL}/api/heroes`);
-    expect(heroApi.defaults.baseURL).toContain('3001');
+    expect(heroApi.defaults.baseURL).toContain('3000');
     console.log(heroApi.defaults.baseURL)
   })
 })
