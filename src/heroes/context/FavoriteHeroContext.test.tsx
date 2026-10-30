@@ -48,7 +48,7 @@ describe('FavoriteHeroContext', () => {
 
   test('should initialize with default values', () => {
     renderConextTest();
-    screen.debug()
+    // screen.debug()
     expect(screen.getByTestId('favorite-count').textContent).toBe('0')
     expect(screen.getByTestId('favorite-count').children).toHaveLength(0)
   })
@@ -58,7 +58,7 @@ describe('FavoriteHeroContext', () => {
     const button = screen.getByTestId('toggle-favorite');
     fireEvent.click(button);
     // localStorage.clear()
-    screen.debug()
+    // screen.debug()
 
     expect(screen.getByTestId('is-favorite').textContent).toBe('true')
     expect(screen.getByTestId('hero-1').textContent).toBe('batman')
@@ -72,7 +72,7 @@ describe('FavoriteHeroContext', () => {
     renderConextTest();
     const button = screen.getByTestId('toggle-favorite');
     fireEvent.click(button);
-    screen.debug()
+    // screen.debug()
 
     expect(screen.getByTestId('is-favorite').textContent).toBe('false')
     expect(screen.queryByTestId('hero-1')).toBeNull()
