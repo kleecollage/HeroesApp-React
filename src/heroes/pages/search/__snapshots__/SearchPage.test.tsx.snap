@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchPage > should render SearchPage with default values 1`] = `
+<div>
+  <div
+    data-testid="custom-jumbotron"
+  />
+  <nav
+    aria-label="breadcrumb"
+    class="my-5"
+    data-slot="breadcrumb"
+  >
+    <ol
+      class="flex flex-wrap items-center gap-1.5 text-sm wrap-break-word text-muted-foreground"
+      data-slot="breadcrumb-list"
+    >
+      <span
+        class="flex items-center gap-1.5"
+      >
+        <li
+          class="inline-flex items-center gap-1"
+          data-slot="breadcrumb-item"
+        >
+          <span
+            aria-current="page"
+            aria-disabled="true"
+            class="font-semibold text-foreground"
+            data-slot="breadcrumb-page"
+            role="link"
+          >
+            Home
+          </span>
+        </li>
+      </span>
+    </ol>
+  </nav>
+  <div>
+    Loading...
+  </div>
+  <div
+    data-testid="search-controls"
+  />
+  <div
+    data-testid="hero-grid"
+  />
+</div>
+`;
