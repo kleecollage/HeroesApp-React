@@ -20,11 +20,11 @@ export const SearchControls = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeAccordion = searchParams.get('active-accordion') ?? '';
   const nameParam = searchParams.get('name') ?? '';
-  const team = searchParams.get('team') ?? '';
   const universe = searchParams.get('universe') ?? '';
   const selectedStrength = Number(searchParams.get('strength') ?? '0');
-  const category = searchParams.get('category') ?? '';
-  const status  = searchParams.get('status') ?? '';
+  // const team = searchParams.get('team') ?? '';
+  // const category = searchParams.get('category') ?? '';
+  // const status  = searchParams.get('status') ?? '';
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
